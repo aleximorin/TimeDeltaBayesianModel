@@ -8,5 +8,3 @@ This work aims to serve as a proof of concept that higher velocity data contains
 <p>
 An example of how the code works is available in `example.py`.
 
-  `nano`
-
