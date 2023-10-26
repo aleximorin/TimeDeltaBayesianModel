@@ -52,20 +52,20 @@ model.width.y = 0.5 * np.ones_like(mesh)
 
 # we define the priors for the various gaussian processes, here unrelated to time
 model.bed.set_1Dprior(sigma=250,
-                      lengthscale=1000,
+                      lengthscale=500,
                       mean_function='self.dem_prior',  # mean functions can be evaluated from the eval() python function
                       obs_variance=50)
-model.bdot.set_1Dprior(sigma=10, lengthscale=3000,
+model.bdot.set_1Dprior(sigma=10, lengthscale=1000,
                        mean_function='np.polynomial.Polynomial.fit(self.r.flatten(), self.y, deg=1)',
                        obs_variance=25)
-model.width.set_1Dprior(sigma=0.3, obs_variance=0.1,
-                        mean_function=lambda x: 0.5 * np.ones_like(x), lengthscale=5000)
+model.width.set_1Dprior(sigma=0.1, obs_variance=0.1,
+                        mean_function=lambda x: 0.5 * np.ones_like(x), lengthscale=500)
 
 # we define the time dependant gaussian processes priors
 for g in model.glaciers:
-    model.glaciers[g].dem.set_1Dprior(sigma=100, lengthscale=3000, mean_function='self.f',
+    model.glaciers[g].dem.set_1Dprior(sigma=100, lengthscale=500, mean_function='self.f',
                                       obs_variance=25)
-    model.glaciers[g].dhdt.set_1Dprior(sigma=100, lengthscale=3000, mean_function='self.f',
+    model.glaciers[g].dhdt.set_1Dprior(sigma=100, lengthscale=500, mean_function='self.f',
                                        obs_variance=250)
     # velocity is not defined as a gaussian process in the model, we are here only defining the likelihood's prior
     model.glaciers[g].velocity.set_1Dprior(obs_variance=100, obs_on_mesh=True)

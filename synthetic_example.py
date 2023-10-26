@@ -70,22 +70,21 @@ model.bed.dem_prior = copy.deepcopy(dem_f)
 
 # we finally define the different priors for the model
 model.bed.set_1Dprior(sigma=200,
-                      lengthscale=1000,
+                      lengthscale=500,
                       mean_function='self.dem_prior',
-                      obs_variance=10)
-
-model.bdot.set_1Dprior(sigma=10, lengthscale=1000,
+                      obs_variance=20)
+model.bdot.set_1Dprior(sigma=10, lengthscale=500,
                        mean_function='np.polynomial.Polynomial.fit(self.r.flatten(), self.y, deg=1)',
                        obs_variance=100)
-model.width.set_1Dprior(sigma=0.001, obs_variance=0.001,
-                        mean_function=lambda x: 1 * np.ones_like(x), lengthscale=1000)
+model.width.set_1Dprior(sigma=0.001, obs_variance=1,
+                        mean_function=lambda x: 1 * np.ones_like(x), lengthscale=500)
 
 for g in model.glaciers:
-    model.glaciers[g].dem.set_1Dprior(sigma=100, lengthscale=1000, mean_function='self.f',
+    model.glaciers[g].dem.set_1Dprior(sigma=100, lengthscale=500, mean_function='self.f',
                                       obs_variance=100)
-    model.glaciers[g].dhdt.set_1Dprior(sigma=10, lengthscale=1000, mean_function='lambda x: np.zeros_like(x)',
+    model.glaciers[g].dhdt.set_1Dprior(sigma=10, lengthscale=500, mean_function='lambda x: np.zeros_like(x)',
                                        obs_variance=100)
-    model.glaciers[g].velocity.set_1Dprior(lengthscale=1000, obs_variance=25,
+    model.glaciers[g].velocity.set_1Dprior(lengthscale=500, obs_variance=25,
                                            obs_on_mesh=True)
 
 # we run the mcmc
@@ -97,6 +96,4 @@ nchains = 3
 model.setup_model(mesh)
 model.sample(niter, nburn, nthin, nchains)
 model.save_sampler('synthetic_model.p')
-
-
 
