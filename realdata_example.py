@@ -7,6 +7,8 @@ import GlacierModel as gm
 from scipy.interpolate import interp1d
 import copy
 
+np.random.seed(999)
+
 # data imports
 dem1 = sr.path_to_simpleraster('data/dem_2016.tif')
 dem2 = sr.path_to_simpleraster('data/dem_2018.tif')
